@@ -1,4 +1,4 @@
-package com.example.newsapp.presentation.top_headlines.components
+package com.example.newsapp.presentation.saved_headlines
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class TopHeadlinesViewModelRoom @Inject constructor(
+class SavedHeadlinesViewModelRoom @Inject constructor(
     private val topHeadlinesRepository: TopHeadlinesRepository,
     private val topHeadlinesDao: TopHeadlinesDao
 ) : ViewModel() {
@@ -26,8 +26,11 @@ class TopHeadlinesViewModelRoom @Inject constructor(
             topHeadlinesRepository.insert(topHeadlinesEntity)
         }
     }
+    init{
+        getAllTopHeadlines()
+    }
 
-    fun getAllTopHeadlines() {
+     fun getAllTopHeadlines() {
         viewModelScope.launch {
             topHeadlinesRepository.getAllTopHeadlines().catch { e ->
                 Log.d("karan", e.message + "getAllTopHeadlinesRoom")

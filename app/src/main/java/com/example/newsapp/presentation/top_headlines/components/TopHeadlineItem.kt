@@ -1,7 +1,6 @@
 package com.example.newsapp.presentation.top_headlines.components
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,19 +21,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.newsapp.common.Screens
 import com.example.newsapp.domain.model.TopHeadlines
+import com.example.newsapp.presentation.saved_headlines.SavedHeadlinesViewModelRoom
 import com.example.newsapp.room.TopHeadlinesEntity
+import kotlin.math.round
+
 
 @Composable
 fun TopHeadlineItem(
     topHeadlines: TopHeadlines,
     onItemClick: (TopHeadlines) -> Unit,
-    roomViewModel: TopHeadlinesViewModelRoom,
+    roomViewModel: SavedHeadlinesViewModelRoom,
     navController: NavController
 
 ) {
     Column {
-        AsyncImage(model = topHeadlines.urlToImage, contentDescription = topHeadlines.description)
+        AsyncImage(
+            model = topHeadlines.urlToImage,
+            contentDescription = topHeadlines.description
+        )
         Spacer(modifier = Modifier.height(10.dp))
         topHeadlines.title?.let { Text(text = it, fontSize = 24.sp, color = Color.Black) }
         Spacer(modifier = Modifier.height(10.dp))
@@ -54,27 +60,30 @@ fun TopHeadlineItem(
                             publishedAt = topHeadlines.publishedAt,
                             urlToImage = topHeadlines.urlToImage,
                             source = topHeadlines.source?.name
+
                         )
                     )
+
                     Log.d("karan", "Insertion Successful")
                 }) {
                     Icon(imageVector = Icons.Filled.Star, contentDescription = "Save News")
                 }
                 IconButton(onClick = {
-                    navController.navigate("second")
-                    Log.d("karan", roomViewModel.topHeadlines.value.size.toString())
+
 
 
                 }) {
                     Icon(imageVector = Icons.Filled.Share, contentDescription = "Share News")
                 }
                 IconButton(onClick = { /*TODO*/ }) {
-                    Icon(imageVector = Icons.Filled.MoreVert, contentDescription = "More Options")
+                    Icon(
+                        imageVector = Icons.Filled.MoreVert,
+                        contentDescription = "More Options"
+                    )
                 }
 
             }
 
         }
     }
-
 }

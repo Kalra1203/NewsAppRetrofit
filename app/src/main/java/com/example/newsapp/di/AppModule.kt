@@ -43,7 +43,7 @@ object AppModule {
     fun provideDatabase(application: Application) = Room.databaseBuilder(
         application,
         TopHeadlinesDatabase::class.java,
-        "savedTopHeadlines"
+        "savedTopHeadlinesDatabase"
     ).fallbackToDestructiveMigration()
         .build()
 

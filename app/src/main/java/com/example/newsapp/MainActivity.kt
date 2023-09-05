@@ -64,7 +64,7 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         topBar = {
                             TopAppBar(
-                                title = { Text(text = "Kalra News App") },
+                                title = { Text(text = "PK News App") },
                                 colors = TopAppBarDefaults.smallTopAppBarColors(MaterialTheme.colorScheme.background)
 
                             )

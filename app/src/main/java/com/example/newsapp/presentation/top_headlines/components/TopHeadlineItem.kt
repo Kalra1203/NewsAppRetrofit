@@ -1,6 +1,7 @@
 package com.example.newsapp.presentation.top_headlines.components
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,15 +18,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.newsapp.common.Screens
 import com.example.newsapp.domain.model.TopHeadlines
 import com.example.newsapp.presentation.saved_headlines.SavedHeadlinesViewModelRoom
 import com.example.newsapp.room.TopHeadlinesEntity
-import kotlin.math.round
 
 
 @Composable
@@ -37,6 +37,7 @@ fun TopHeadlineItem(
 
 ) {
     Column {
+        val context = LocalContext.current
         AsyncImage(
             model = topHeadlines.urlToImage,
             contentDescription = topHeadlines.description
@@ -64,12 +65,12 @@ fun TopHeadlineItem(
                         )
                     )
 
-                    Log.d("karan", "Insertion Successful")
+                    Log.d("karan", "Saved Successful")
+                    Toast.makeText(context, "Insertion Successful", Toast.LENGTH_SHORT).show()
                 }) {
                     Icon(imageVector = Icons.Filled.Star, contentDescription = "Save News")
                 }
                 IconButton(onClick = {
-
 
 
                 }) {

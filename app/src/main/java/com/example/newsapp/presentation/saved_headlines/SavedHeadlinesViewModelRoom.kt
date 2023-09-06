@@ -11,6 +11,7 @@ import com.example.newsapp.room.TopHeadlinesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import okhttp3.internal.notify
 import javax.inject.Inject
 
 
@@ -19,18 +20,19 @@ class SavedHeadlinesViewModelRoom @Inject constructor(
     private val topHeadlinesRepository: TopHeadlinesRepository,
     private val topHeadlinesDao: TopHeadlinesDao
 ) : ViewModel() {
-     var topHeadlines: MutableState<List<TopHeadlinesEntity>> = mutableStateOf(listOf())
+    var topHeadlines: MutableState<List<TopHeadlinesEntity>> = mutableStateOf(listOf())
 
     fun insert(topHeadlinesEntity: TopHeadlinesEntity) {
         viewModelScope.launch {
             topHeadlinesRepository.insert(topHeadlinesEntity)
         }
     }
-    init{
+
+    init {
         getAllTopHeadlines()
     }
 
-     fun getAllTopHeadlines() {
+    fun getAllTopHeadlines() {
         viewModelScope.launch {
             topHeadlinesRepository.getAllTopHeadlines().catch { e ->
                 Log.d("karan", e.message + "getAllTopHeadlinesRoom")
@@ -43,10 +45,11 @@ class SavedHeadlinesViewModelRoom @Inject constructor(
     }
 
 
-    fun deleteTopHeadlines(topHeadlinesEntity: TopHeadlinesEntity) {
+    suspend fun deleteTopHeadlines(topHeadlinesEntity: TopHeadlinesEntity) {
         viewModelScope.launch {
             try {
                 topHeadlinesDao.deleteTopHeadlines(topHeadlinesEntity)
+                topHeadlines.value.notify()
             } catch (e: Exception) {
                 Log.d("karan", e.localizedMessage ?: "Exception in deleteTopHeadlines")
             }

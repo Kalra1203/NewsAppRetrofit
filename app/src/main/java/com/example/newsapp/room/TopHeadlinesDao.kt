@@ -17,5 +17,5 @@ interface TopHeadlinesDao {
     fun getAllTopHeadlines(): Flow<List<TopHeadlinesEntity>>
 
     @Delete()
-    fun deleteTopHeadlines(topHeadlinesEntity: TopHeadlinesEntity)
+    suspend fun deleteTopHeadlines(topHeadlinesEntity: TopHeadlinesEntity)
 }

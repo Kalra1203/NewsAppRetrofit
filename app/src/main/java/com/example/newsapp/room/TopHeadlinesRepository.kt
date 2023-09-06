@@ -12,8 +12,10 @@ class TopHeadlinesRepository @Inject constructor(
         dao.insert(topHeadlinesEntity)
     }
 
-    fun getAllTopHeadlines() : Flow<List<TopHeadlinesEntity>> = dao.getAllTopHeadlines()
+    fun getAllTopHeadlines(): Flow<List<TopHeadlinesEntity>> = dao.getAllTopHeadlines()
 
-    fun deleteTopHeadlines(topHeadlinesEntity: TopHeadlinesEntity): Unit =
-        dao.deleteTopHeadlines(topHeadlinesEntity)
+    suspend fun deleteTopHeadlines(topHeadlinesEntity: TopHeadlinesEntity) =
+        withContext(Dispatchers.IO) {
+            dao.deleteTopHeadlines(topHeadlinesEntity)
+        }
 }

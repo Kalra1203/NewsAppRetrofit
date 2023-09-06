@@ -13,7 +13,7 @@ fun SavedHeadlinesScreen(topHeadlinesViewModelRoom: SavedHeadlinesViewModelRoom)
     }
     LazyColumn {
         items(topHeadlinesViewModelRoom.topHeadlines.value) {
-            SavedHeadlinesItem(topHeadlines = it)
+            SavedHeadlinesItem(topHeadlines = it, topHeadlinesViewModelRoom)
         }
     }
 

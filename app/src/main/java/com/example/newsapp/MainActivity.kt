@@ -30,6 +30,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.newsapp.common.Screens
+import com.example.newsapp.presentation.detailed_screen.DetailedItem
+import com.example.newsapp.presentation.detailed_screen.DetailedScreen
 import com.example.newsapp.presentation.saved_headlines.SavedHeadlinesScreen
 import com.example.newsapp.presentation.saved_headlines.SavedHeadlinesViewModelRoom
 import com.example.newsapp.presentation.top_headlines.TopHeadlineViewModel
@@ -64,7 +66,7 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         topBar = {
                             TopAppBar(
-                                title = { Text(text = "PK News App") },
+                                title = { Text(text = "Kalra News App") },
                                 colors = TopAppBarDefaults.smallTopAppBarColors(MaterialTheme.colorScheme.background)
 
                             )
@@ -122,6 +124,10 @@ class MainActivity : ComponentActivity() {
                             }
                             composable(Screens.SavedNews.route) {
                                 SavedHeadlinesScreen(topHeadlinesViewModelRoom = viewModelRoom)
+                            }
+                            composable("detailedScreen"){
+                                val detailedScreen = navController.previousBackStackEntry?.savedStateHandle?.get<DetailedScreen>("headline")
+                                detailedScreen?.let { it1 -> DetailedItem(detailedScreen = it1) }
                             }
 
 

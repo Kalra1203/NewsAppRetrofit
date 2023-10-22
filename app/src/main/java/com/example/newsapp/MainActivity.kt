@@ -14,7 +14,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -42,11 +41,13 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @OptIn(ExperimentalMaterial3Api::class)
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class  MainActivity : ComponentActivity() {
+
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         val viewModelRoom by viewModels<SavedHeadlinesViewModelRoom>()
         val viewModel by viewModels<TopHeadlineViewModel>()
+
         super.onCreate(savedInstanceState)
         setContent {
             NewsAppTheme {
@@ -63,54 +64,52 @@ class MainActivity : ComponentActivity() {
                         mutableStateOf(0)
                     }
 
-                    Scaffold(
-                        topBar = {
-                            TopAppBar(
-                                title = { Text(text = "Kalra News App") },
-                                colors = TopAppBarDefaults.smallTopAppBarColors(MaterialTheme.colorScheme.background)
+                    Scaffold(topBar = {
+                        TopAppBar(
+                            title = { Text(text = "Kalra News App") },
+                            colors = TopAppBarDefaults.smallTopAppBarColors(MaterialTheme.colorScheme.background)
 
-                            )
-                        },
-                        bottomBar = {
-                            NavigationBar(modifier = Modifier.wrapContentHeight()) {
-                                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                                val currentDestination = navBackStackEntry?.destination
-                                screens.forEachIndexed { index, screen ->
-                                    NavigationBarItem(
-                                        selected = selectedItemIndex == index,
-                                        onClick = {
-                                            selectedItemIndex = index
-                                            navController.navigate(screen.route) {
+                        )
+                    }, bottomBar = {
+                        NavigationBar(modifier = Modifier.wrapContentHeight()) {
+                            val navBackStackEntry by navController.currentBackStackEntryAsState()
+                            val currentDestination = navBackStackEntry?.destination
+                            screens.forEachIndexed { index, screen ->
+                                NavigationBarItem(
+                                    selected = selectedItemIndex == index,
+                                    onClick = {
+                                        selectedItemIndex = index
+                                        navController.navigate(screen.route) {
 //                                                // Pop up to the start destination of the graph to
 //                                                // avoid building up a large stack of destinations
 //                                                // on the back stack as users select items
-                                                popUpTo(navController.graph.findStartDestination().id) {
-                                                    saveState = true
-                                                }
+                                            popUpTo(navController.graph.findStartDestination().id) {
+                                                saveState = true
+                                            }
 //                                                // Avoid multiple copies of the same destination when
 //                                                // reselecting the same item
-                                                launchSingleTop = true
+                                            launchSingleTop = true
 //                                                // Restore state when reselecting a previously selected item
-                                                restoreState = true
-                                            }
-                                        },
-                                        icon = {
-                                            Icon(
-                                                imageVector = if (selectedItemIndex == index) screen.selectedIcon else screen.unselectedIcon,
-                                                contentDescription = screen.title
-                                            )
-                                        },
-                                        label = {
-                                            Text(text = screen.title)
-                                        },
-                                        alwaysShowLabel = false,
-                                    )
-
-                                }
+                                            restoreState = true
+                                        }
+                                    },
+                                    icon = {
+                                        Icon(
+                                            imageVector = if (selectedItemIndex == index) screen.selectedIcon else screen.unselectedIcon,
+                                            contentDescription = screen.title
+                                        )
+                                    },
+                                    label = {
+                                        Text(text = screen.title)
+                                    },
+                                    alwaysShowLabel = false,
+                                )
 
                             }
 
-                        }) { innerPadding ->
+                        }
+
+                    }) { innerPadding ->
                         NavHost(
                             navController = navController,
                             startDestination = Screens.BreakingNews.route,
@@ -123,12 +122,19 @@ class MainActivity : ComponentActivity() {
 
                             }
                             composable(Screens.SavedNews.route) {
-                                SavedHeadlinesScreen(topHeadlinesViewModelRoom = viewModelRoom)
+                                SavedHeadlinesScreen(
+                                    topHeadlinesViewModelRoom = viewModelRoom,
+                                    navController = navController
+                                )
                             }
-                            composable("detailedScreen"){
-                                val detailedScreen = navController.previousBackStackEntry?.savedStateHandle?.get<DetailedScreen>("headline")
+                            composable("detailedScreen") {
+                                val detailedScreen =
+                                    navController.previousBackStackEntry?.savedStateHandle?.get<DetailedScreen>(
+                                        "headline"
+                                    )
                                 detailedScreen?.let { it1 -> DetailedItem(detailedScreen = it1) }
                             }
+
 
 
                         }

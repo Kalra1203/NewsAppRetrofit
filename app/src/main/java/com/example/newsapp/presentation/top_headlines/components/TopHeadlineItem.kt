@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -72,7 +73,15 @@ fun TopHeadlineItem(
                 .fillMaxHeight(.25f)
         )
         Spacer(modifier = Modifier.height(10.dp))
-        topHeadlines.title?.let { Text(text = it, fontSize = 24.sp, color = Color.Black) }
+        topHeadlines.title?.let {
+            Text(
+                text = it,
+                fontSize = 24.sp,
+                color = Color.Black,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
         Spacer(modifier = Modifier.height(10.dp))
         Row(modifier = Modifier.fillMaxWidth()) {
             Row(horizontalArrangement = Arrangement.Start) {

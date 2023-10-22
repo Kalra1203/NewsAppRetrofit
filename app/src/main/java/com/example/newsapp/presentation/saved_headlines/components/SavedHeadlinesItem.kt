@@ -1,5 +1,6 @@
 package com.example.newsapp.presentation.saved_headlines.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,23 +27,40 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.newsapp.R
+import com.example.newsapp.presentation.detailed_screen.DetailedScreen
 import com.example.newsapp.presentation.saved_headlines.SavedHeadlinesViewModelRoom
 import com.example.newsapp.room.TopHeadlinesEntity
 import kotlinx.coroutines.launch
 
 @Composable
 fun SavedHeadlinesItem(
-    topHeadlines: TopHeadlinesEntity, topHeadlinesViewModelRoom: SavedHeadlinesViewModelRoom
+    topHeadlines: TopHeadlinesEntity,
+    topHeadlinesViewModelRoom: SavedHeadlinesViewModelRoom,
+    navController: NavController
 ) {
     val coroutineScope = rememberCoroutineScope()
     var openDialog by remember {
         mutableStateOf(false)
     }
-    Column {
+    Column(modifier = Modifier
+        .clickable {
+            val headline = DetailedScreen(
+                content = topHeadlines.content,
+                description = topHeadlines.description,
+                publishedAt = topHeadlines.publishedAt,
+                title = topHeadlines.title,
+                urlToImage = topHeadlines.urlToImage
+            )
+            navController.currentBackStackEntry?.savedStateHandle?.set("headline", headline)
+            navController.navigate("detailedScreen")
+        }
+    ) {
 
 
         AsyncImage(
@@ -57,7 +75,13 @@ fun SavedHeadlinesItem(
             contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = topHeadlines.title, fontSize = 24.sp, color = Color.Black)
+        Text(
+            text = topHeadlines.title,
+            fontSize = 24.sp,
+            color = Color.Black,
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis
+        )
         Spacer(modifier = Modifier.height(10.dp))
         Row(modifier = Modifier.fillMaxWidth()) {
             Row(horizontalArrangement = Arrangement.Start) {
@@ -89,10 +113,10 @@ fun SavedHeadlinesItem(
             onDismissRequest = { openDialog = false },
 
 
-            title = { Text(text = "Geeks for Geeks", color = Color.White) },
+            title = { Text(text = "Delete", color = Color.White) },
 
 
-            text = { Text("Hello! This is our Alert Dialog..", color = Color.White) },
+            text = { Text("Are you sure you want to delete this item?", color = Color.White) },
 
 
             confirmButton = {
@@ -117,10 +141,9 @@ fun SavedHeadlinesItem(
                 }) {
                     Text("Dismiss", color = Color.White)
                 }
-            },
-            containerColor = MaterialTheme.colorScheme.primaryContainer
+            }, containerColor = MaterialTheme.colorScheme.primaryContainer
 
-            )
+        )
     }
 }
 

@@ -11,4 +11,6 @@ interface NewsApi {
         @Query("country") country: String,
         @Query("apiKey") apiKey: String
     ): TopHeadlinesDto
+
+
 }

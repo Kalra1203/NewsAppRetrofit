@@ -1,7 +1,6 @@
 package com.example.newsapp.presentation.detailed_screen
 
 import android.os.Parcelable
-import com.example.newsapp.data.remote.dto.Source
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -13,4 +12,4 @@ class DetailedScreen(
     val title: String?,
     val urlToImage: String?
 
-): Parcelable
+) : Parcelable

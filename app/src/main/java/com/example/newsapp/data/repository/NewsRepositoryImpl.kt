@@ -11,4 +11,7 @@ class NewsRepositoryImpl @Inject constructor(
     override suspend fun getTopHeadlines(country: String, apiKey: String): TopHeadlinesDto {
         return api.getTopHeadlines(country, apiKey)
     }
+
+
+
 }

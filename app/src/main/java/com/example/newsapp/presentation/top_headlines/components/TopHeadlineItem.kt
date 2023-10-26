@@ -1,5 +1,7 @@
 package com.example.newsapp.presentation.top_headlines.components
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
@@ -47,6 +49,7 @@ fun TopHeadlineItem(
 
 ) {
     Column(modifier = Modifier.clickable {
+        val context: Context
         val headline = DetailedScreen(
             content = topHeadlines.content,
             description = topHeadlines.description,
@@ -110,11 +113,13 @@ fun TopHeadlineItem(
                     Icon(
                         painter = if (filledStar) painterResource(id = R.drawable.filled_star) else painterResource(
                             id = R.drawable.star
-                        ), contentDescription = "Save News",
-                        modifier = Modifier.height(22.dp)
+                        ), contentDescription = "Save News", modifier = Modifier.height(22.dp)
                     )
                 }
                 IconButton(onClick = {
+                    context.shareLink(topHeadlines.url!!)
+
+
 
 
                 }) {
@@ -122,8 +127,7 @@ fun TopHeadlineItem(
                 }
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(
-                        imageVector = Icons.Filled.MoreVert,
-                        contentDescription = "More Options"
+                        imageVector = Icons.Filled.MoreVert, contentDescription = "More Options"
                     )
                 }
 
@@ -131,4 +135,13 @@ fun TopHeadlineItem(
 
         }
     }
+}
+
+fun Context.shareLink(url: String) {
+    val sendIntent = Intent(Intent.ACTION_SEND).apply {
+        putExtra(Intent.EXTRA_TEXT, url)
+        type = "text/plain"
+    }
+    val shareIntent = Intent.createChooser(sendIntent, null)
+    startActivity(shareIntent)
 }

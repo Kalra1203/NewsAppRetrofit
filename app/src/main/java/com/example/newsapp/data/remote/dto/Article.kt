@@ -21,6 +21,7 @@ fun Article.toTopHeadlines(): TopHeadlines {
         title = title,
         urlToImage = urlToImage,
         source = source,
+        url = url
 
         )
 }

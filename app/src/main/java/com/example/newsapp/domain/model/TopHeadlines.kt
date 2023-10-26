@@ -9,5 +9,7 @@ data class TopHeadlines(
     val publishedAt: String?,
     val title: String?,
     val urlToImage: String?,
-    val source: Source?
-)
+    val source: Source?,
+    val url: String?,
+
+    )

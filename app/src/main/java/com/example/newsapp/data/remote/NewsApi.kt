@@ -12,5 +12,11 @@ interface NewsApi {
         @Query("apiKey") apiKey: String
     ): TopHeadlinesDto
 
+    @GET("v2/everything")
+    suspend fun searchHeadlines(
+        @Query("q") q: String,
+        @Query("apiKey") apiKey: String
+    ): TopHeadlinesDto
+
 
 }

@@ -7,6 +7,7 @@ import com.example.newsapp.common.Constants
 import com.example.newsapp.data.remote.NewsApi
 import com.example.newsapp.data.repository.NewsRepositoryImpl
 import com.example.newsapp.domain.repository.NewsRepository
+import com.example.newsapp.presentation.search_headlines.SearchHeadlinesRepository
 import com.example.newsapp.room.TopHeadlinesDao
 import com.example.newsapp.room.TopHeadlinesDatabase
 import dagger.Module
@@ -36,6 +37,12 @@ object AppModule {
     @Singleton
     fun provideNewsRepository(api: NewsApi): NewsRepository {
         return NewsRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchHeadlineRepository(api: NewsApi) : SearchHeadlinesRepository{
+        return SearchHeadlinesRepository(api)
     }
 
     @Provides

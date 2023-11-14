@@ -12,6 +12,7 @@ data class TopHeadlinesEntity(
     val description: String? = "default description",
     val publishedAt: String? = "default published",
     val urlToImage: String? = "default url",
-    val source: String? = "default source name"
+    val source: String? = "default source name",
+    val url: String? = ""
 
 )

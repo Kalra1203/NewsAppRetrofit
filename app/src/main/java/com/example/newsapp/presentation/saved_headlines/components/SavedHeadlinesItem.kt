@@ -1,5 +1,6 @@
 package com.example.newsapp.presentation.saved_headlines.components
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -35,6 +37,7 @@ import coil.compose.AsyncImage
 import com.example.newsapp.R
 import com.example.newsapp.presentation.detailed_screen.DetailedScreen
 import com.example.newsapp.presentation.saved_headlines.SavedHeadlinesViewModelRoom
+import com.example.newsapp.presentation.top_headlines.components.shareLink
 import com.example.newsapp.room.TopHeadlinesEntity
 import kotlinx.coroutines.launch
 
@@ -55,12 +58,14 @@ fun SavedHeadlinesItem(
                 description = topHeadlines.description,
                 publishedAt = topHeadlines.publishedAt,
                 title = topHeadlines.title,
-                urlToImage = topHeadlines.urlToImage
+                urlToImage = topHeadlines.urlToImage,
+                url = topHeadlines.url
             )
             navController.currentBackStackEntry?.savedStateHandle?.set("headline", headline)
             navController.navigate("detailedScreen")
         }
     ) {
+        val context = LocalContext.current
 
 
         AsyncImage(
@@ -91,6 +96,8 @@ fun SavedHeadlinesItem(
             Row(modifier = Modifier.weight(1f), horizontalArrangement = Arrangement.End) {
 
                 IconButton(onClick = {
+                    context.shareLink(topHeadlines.url!!)
+
 
                 }) {
                     Icon(imageVector = Icons.Filled.Share, contentDescription = "Share News")

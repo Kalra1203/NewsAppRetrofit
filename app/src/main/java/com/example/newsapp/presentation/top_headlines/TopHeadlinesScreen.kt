@@ -30,7 +30,7 @@ fun TopHeadlinesScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 6.dp)) {
+            .padding(horizontal = 4.dp)) {
             items(state.topHeadlines) { topHeadline ->
                 TopHeadlineItem(
                     topHeadlines = topHeadline,

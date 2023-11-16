@@ -17,6 +17,4 @@ interface NewsApi {
         @Query("q") q: String,
         @Query("apiKey") apiKey: String
     ): TopHeadlinesDto
-
-
 }

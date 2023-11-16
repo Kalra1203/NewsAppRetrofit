@@ -58,11 +58,6 @@ fun SearchHeadlinesScreen(searchHeadlineViewModel: SearchHeadlineViewModel = hil
                     )
                 }
             }
-            if(searchHeadlineViewModel.list.value.topHeadlines.isEmpty()){
-                Box {
-                    Text(text = "data is null", modifier = Modifier.align(Alignment.Center))
-                }
-            }
             if(searchHeadlineViewModel.list.value.topHeadlines.isNotEmpty()){
                 LazyColumn{
                     items(searchHeadlineViewModel.list.value.topHeadlines){
